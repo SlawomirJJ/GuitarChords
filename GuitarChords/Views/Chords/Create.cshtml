@@ -1,0 +1,65 @@
+﻿@model GuitarChords.Models.Chord
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Chord</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ChordName" class="control-label"></label>
+                <input asp-for="ChordName" class="form-control" />
+                <span asp-validation-for="ChordName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bar" class="control-label"></label>
+                <input asp-for="Bar" class="form-control" />
+                <span asp-validation-for="Bar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstString" class="control-label"></label>
+                <input asp-for="FirstString" class="form-control" />
+                <span asp-validation-for="FirstString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondString" class="control-label"></label>
+                <input asp-for="SecondString" class="form-control" />
+                <span asp-validation-for="SecondString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThirdString" class="control-label"></label>
+                <input asp-for="ThirdString" class="form-control" />
+                <span asp-validation-for="ThirdString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FourthString" class="control-label"></label>
+                <input asp-for="FourthString" class="form-control" />
+                <span asp-validation-for="FourthString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FifthString" class="control-label"></label>
+                <input asp-for="FifthString" class="form-control" />
+                <span asp-validation-for="FifthString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SixthString" class="control-label"></label>
+                <input asp-for="SixthString" class="form-control" />
+                <span asp-validation-for="SixthString" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
