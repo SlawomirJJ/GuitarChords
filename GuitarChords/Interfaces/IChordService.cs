@@ -1,4 +1,6 @@
-﻿using GuitarChords.Requests;
+﻿using GuitarChords.Dtos;
+using GuitarChords.Models;
+using GuitarChords.Requests;
 using GuitarChords.Results;
 
 namespace GuitarChords.Interfaces
@@ -7,7 +9,8 @@ namespace GuitarChords.Interfaces
     {
         Task CreateChord(CreateChordRequest request);
         Task<List<FoundChordResult>> GetAllChords();
-        Task UpdateChord(UpdateChordRequest request);
-        Task DeleteUser(Guid id);
+        Task UpdateChord(Chord chord);
+        Task DeleteChord(Guid id);
+        Task<List<ChordDto>> SearchChord(string chordName);
     }
 }

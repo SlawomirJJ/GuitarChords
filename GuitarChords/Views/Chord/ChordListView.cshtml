@@ -1,0 +1,183 @@
+﻿@model IEnumerable<GuitarChords.Dtos.ChordDto>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ChordName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThirdString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FourthString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FifthString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SixthString)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChordName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FourthString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FifthString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SixthString)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<style>
+    td, th 
+    { 
+        border: 1px solid black; 
+        width: 50px;
+        height:20px;
+    } 
+    .no-border {
+        border: none;
+        text-align: center;
+        margin-bottom: 3px;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border: 10px solid red;
+        border-radius: 50%;
+        position: relative;
+        top: -10px;
+        margin: 0 auto;
+        
+    }
+</style>
+
+@foreach (var item in Model) {
+<table>
+    <thead>
+        <tr>
+            @for (int i = 0; i < item.HighestFret +1; i++)
+                {
+                    <th class="no-border">@i</th>
+                }
+        </tr>
+    </thead>
+    <tbody>
+        <tr><!-- first string -->
+            @for (int i = 1; i <= item.HighestFret + 1; i++)
+            {
+                    <td>
+                        @if (item.FirstString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+                    
+            }
+        </tr>
+        <tr><!-- second string -->
+                @for (int i = 1; i <= item.HighestFret + 1; i++)
+                {
+                    <td>
+                        @if (item.SecondString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+                }
+        </tr>
+        <tr><!-- third string -->
+                @for (int i = 1; i <= item.HighestFret + 1; i++)
+                {
+                    <td>
+                        @if (item.ThirdString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+
+                }
+        </tr>
+        <tr><!-- fourth string -->
+                @for (int i = 1; i <= item.HighestFret + 1; i++)
+                {
+                    <td>
+                        @if (item.FourthString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+
+                }
+        </tr>
+        <tr><!-- fifth string -->
+                @for (int i = 1; i <= item.HighestFret + 1; i++)
+                {
+                    <td>
+                        @if (item.FifthString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+
+                }
+        </tr>
+        <tr><!-- sixth string -->
+                @for (int i = 1; i <= item.HighestFret + 1; i++)
+                {
+                    <td>
+                        @if (item.SixthString.ToString() == i.ToString())
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+
+                }
+
+    </tbody>
+</table>
+}

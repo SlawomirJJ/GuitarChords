@@ -1,9 +1,11 @@
-﻿namespace GuitarChords.Models
+﻿namespace GuitarChords.Dtos
 {
-    public class Chord
+    public class ChordDto
     {
         public Guid Id { get; set; }
         public string ChordName { get; set; } = string.Empty;
+        public int LowestFret { get; set; }
+        public int HighestFret { get; set; }
         public int? Bar { get; set; }
         public int? FirstString { get; set; }
         public int? SecondString { get; set; }
