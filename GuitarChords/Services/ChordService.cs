@@ -23,25 +23,19 @@ namespace GuitarChords.Services
 
         public async Task CreateChord(CreateChordRequest request)
         {
-            //var newChord = new Chord
-            //{
-            //    ChordName = request.ChordName,
-            //    FirstString = request.FirstString,
-            //    SecondString = request.SecondString,
-            //    ThirdString = request.ThirdString,
-            //    FourthString = request.FourthString,
-            //    FifthString = request.FifthString,
-            //    SixthString = request.SixthString,
-            //};
+            var newChord = new Chord
+            {
+                ChordName = request.ChordName,
+                FirstString = request.FirstString,
+                SecondString = request.SecondString,
+                ThirdString = request.ThirdString,
+                FourthString = request.FourthString,
+                FifthString = request.FifthString,
+                SixthString = request.SixthString,
+            };
 
-            //await _dbContext.Chords.AddAsync(newChord);
-            //await _dbContext.SaveChangesAsync();
-        }
-
-
-        public Task DeleteUser(Guid id)
-        {
-            throw new NotImplementedException();
+            await _dbContext.Chords.AddAsync(newChord);
+            await _dbContext.SaveChangesAsync();
         }
 
         public Task<List<FoundChordResult>> GetAllChords()

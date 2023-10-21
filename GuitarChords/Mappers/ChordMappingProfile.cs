@@ -11,6 +11,7 @@ namespace GuitarChords.Mappers
             CreateMap<Chord, ChordDto>()
                 .ForMember(m => m.LowestFret, a => a.MapFrom(c => FindLowestFret(new int?[] { c.FirstString, c.SecondString, c.ThirdString, c.FourthString, c.FifthString, c.SixthString })))
                 .ForMember(m => m.HighestFret, a => a.MapFrom(c => FindHighestFret(new int?[] { c.FirstString, c.SecondString, c.ThirdString, c.FourthString, c.FifthString, c.SixthString })));
+                
         }
 
         private int FindLowestFret(int?[] strings)
@@ -20,7 +21,7 @@ namespace GuitarChords.Mappers
             {
                 if (number.HasValue)
                 {
-                    if (number < lowestFret || number != 0)
+                    if (number < lowestFret && number != 0)
                     {
                         lowestFret = (int)number;
                     }
@@ -42,7 +43,7 @@ namespace GuitarChords.Mappers
             {
                 if (number.HasValue)
                 {
-                    if (number < highestFret || number != 0)
+                    if (number > highestFret)
                     {
                         highestFret = (int)number;
                     }

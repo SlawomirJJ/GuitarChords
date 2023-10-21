@@ -9,6 +9,7 @@ using GuitarChords;
 using GuitarChords.Models;
 using GuitarChords.Interfaces;
 using GuitarChords.Dtos;
+using GuitarChords.Requests;
 
 namespace GuitarChords.Controllers
 {
@@ -28,9 +29,15 @@ namespace GuitarChords.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CreateChord()
+        public async Task<IActionResult> ShowCreateChord()
         {
-            return View();
+            return View("CreateChord");
+        }
+
+        public async Task<IActionResult> ProcessCreateChord(CreateChordRequest request)
+        {
+            await _chordService.CreateChord(request);
+            return View("Index");
         }
 
         public async Task<IActionResult> SearchChordResults(string chordName)
@@ -42,7 +49,6 @@ namespace GuitarChords.Controllers
 
         public async Task<IActionResult> ShowUpdateChord(Guid id)
         {
-            //var foundChord = 
             return View("ShowEditChord");
         }
 
@@ -52,8 +58,9 @@ namespace GuitarChords.Controllers
             return View("Index");
         }
 
-        public async Task<IActionResult> DeleteChord()
+        public async Task<IActionResult> DeleteChord(Guid id)
         {
+            await _chordService.DeleteChord(id);
             return View("Index");
         }
 

@@ -1,78 +1,14 @@
 ﻿@model IEnumerable<GuitarChords.Dtos.ChordDto>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ChordName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstString)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondString)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThirdString)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FourthString)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FifthString)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SixthString)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChordName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThirdString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FourthString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FifthString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SixthString)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                
+
 
 
 <style>
-    td, th 
+    .cell 
     { 
         border: 1px solid black; 
         width: 50px;
@@ -85,99 +21,176 @@
     }
 
     .dot {
-        width: 10px;
-        height: 10px;
-        border: 10px solid red;
+        width: 15px;
+        height: 15px;
+        background-color: red;
         border-radius: 50%;
         position: relative;
         top: -10px;
         margin: 0 auto;
         
     }
+
+    .black-header
+    {
+        background-color:black;
+        border-bottom: 1px solid grey;
+        border-top: 1px solid grey;
+        width: 10px;
+        height: 20px;
+        text-align: center;
+    }
+    .X
+    {
+        color: red;
+        margin: 0 auto;
+        font-size:30px;
+    }
 </style>
 
 @foreach (var item in Model) {
+<a asp-action="ShowUpdateChord" asp-route-id="@item.Id">Edit</a>  
+<a asp-action="DeleteChord" asp-route-id="@item.Id">Delete</a>
 <table>
     <thead>
         <tr>
-            @for (int i = 0; i < item.HighestFret +1; i++)
+                <th class="no-border"></th>
+            @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
                     <th class="no-border">@i</th>
                 }
         </tr>
     </thead>
     <tbody>
-        <tr><!-- first string -->
-            @for (int i = 1; i <= item.HighestFret + 1; i++)
-            {
-                    <td>
-                        @if (item.FirstString.ToString() == i.ToString())
-                        {
-                            <div class="dot"></div>
-                        }
-                    </td>
-                    
-            }
-        </tr>
-        <tr><!-- second string -->
-                @for (int i = 1; i <= item.HighestFret + 1; i++)
+            <tr>
+                <td class="black-header" style="position: relative; text-align: center;">
+                    @if (item.FirstString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.FirstString == null)
+                    {
+                        <div class="X"> X </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
-                    <td>
-                        @if (item.SecondString.ToString() == i.ToString())
+                    <td class="cell">
+                        @if (item.FirstString == i)
                         {
                             <div class="dot"></div>
                         }
                     </td>
                 }
-        </tr>
-        <tr><!-- third string -->
-                @for (int i = 1; i <= item.HighestFret + 1; i++)
+            </tr>
+            <tr>
+                <td class="black-header" style="position: relative; text-align: center;">
+                    @if (item.SecondString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.SecondString == null)
+                    {
+                        <div class="X"> X </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
-                    <td>
-                        @if (item.ThirdString.ToString() == i.ToString())
+                    <td class="cell">
+                        @if (item.SecondString == i)
                         {
                             <div class="dot"></div>
                         }
                     </td>
-
                 }
-        </tr>
-        <tr><!-- fourth string -->
-                @for (int i = 1; i <= item.HighestFret + 1; i++)
+            </tr>
+            <tr>
+                <td class="black-header" style="position: relative; text-align: center;">
+                    @if (item.ThirdString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.ThirdString == null)
+                    {
+                        <div class="X"> X </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
-                    <td>
-                        @if (item.FourthString.ToString() == i.ToString())
+                    <td class="cell">
+                        @if (item.ThirdString == i)
                         {
                             <div class="dot"></div>
                         }
                     </td>
-
                 }
-        </tr>
-        <tr><!-- fifth string -->
-                @for (int i = 1; i <= item.HighestFret + 1; i++)
+            </tr>
+            <tr>
+                <td class="black-header" style="position: relative; text-align: center;">
+                    @if (item.FourthString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.FourthString == null)
+                    {
+                        <div class="X"> X </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
-                    <td>
-                        @if (item.FifthString.ToString() == i.ToString())
+                    <td class="cell">
+                        @if (item.FourthString == i)
                         {
                             <div class="dot"></div>
                         }
                     </td>
-
                 }
-        </tr>
-        <tr><!-- sixth string -->
-                @for (int i = 1; i <= item.HighestFret + 1; i++)
+            </tr>
+            <tr>
+                <td class="black-header" style="position: relative; text-align: center;">
+                    @if (item.FifthString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.FifthString == null)
+                    {
+                        <div class="X"> X </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
                 {
-                    <td>
-                        @if (item.SixthString.ToString() == i.ToString())
+                    <td class="cell">
+                        @if (item.FifthString == i)
                         {
                             <div class="dot"></div>
                         }
                     </td>
-
                 }
+            </tr>
+            <tr class="no-border">
+                <td class="no-border" style="position: relative; text-align: center;">
+                    @if (item.SixthString == 0)
+                    {
+                        <div class="dot" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
+                    }
+                    else if (item.SixthString == null)
+                    {
+                        <div class="X" style="position: absolute; left: 50%; top: -20%; text-align: center; transform: translate(-50%, -50%);"> x </div>
+                    }
+                </td>
+                @for (int i = item.LowestFret; i <= item.HighestFret; i++)
+                {
+                    <td class="cell" style="border: none;">
+                        @if (item.SixthString == i)
+                        {
+                            <div class="dot"></div>
+                        }
+                    </td>
+                }
+            </tr>
+        
 
     </tbody>
 </table>
+
 }
