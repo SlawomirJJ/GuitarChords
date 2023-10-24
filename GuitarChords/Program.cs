@@ -1,8 +1,8 @@
 using GuitarChords;
-using GuitarChords.Interfaces;
 using GuitarChords.Mappers;
 using GuitarChords.Models;
-using GuitarChords.Services;
+using GuitarChords.Repositories.Interfaces;
+using GuitarChords.Repositories.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.ConfigureApplicationCookie(op => op.LoginPath = "/UserAuthentication/Login");
+builder.Services.ConfigureApplicationCookie(op => op.LoginPath = "/Auth/Login");
 
 var app = builder.Build();
 

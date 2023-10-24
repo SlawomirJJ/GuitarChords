@@ -1,0 +1,30 @@
+﻿@model GuitarChords.Dtos.Requests.LoginRequest
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+    <form asp-action="Login" method="post">
+    <div class="container">
+        <label asp-for="UserName">UserName</label>
+        <input type="text" asp-for="UserName" />
+        <div>
+            <span asp-validation-for="UserName"></span>
+        </div>
+
+        <label asp-for="Password">Password</label>
+        <input type="password" asp-for="Password" />
+        <div>
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        @if (TempData["msg"] != null)
+        {
+            <div>
+                @TempData["msg"]
+            </div>
+        }
+
+        <button type="submit">Login</button>
+        <a href="/Auth/Register">Not a user! click here to sign up</a>
+    </div>
+    </form>

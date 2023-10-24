@@ -3,7 +3,7 @@ using GuitarChords.Dtos.Requests;
 using GuitarChords.Models;
 using GuitarChords.Results;
 
-namespace GuitarChords.Interfaces
+namespace GuitarChords.Repositories.Interfaces
 {
     public interface IChordService
     {

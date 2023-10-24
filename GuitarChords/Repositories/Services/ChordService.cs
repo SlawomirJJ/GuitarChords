@@ -2,13 +2,13 @@
 using Azure.Core;
 using GuitarChords.Dtos;
 using GuitarChords.Dtos.Requests;
-using GuitarChords.Interfaces;
 using GuitarChords.Models;
+using GuitarChords.Repositories.Interfaces;
 using GuitarChords.Results;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
-namespace GuitarChords.Services
+namespace GuitarChords.Repositories.Services
 {
     public class ChordService : IChordService
     {
@@ -86,14 +86,14 @@ namespace GuitarChords.Services
 
         public async Task<List<ChordDto>>? SearchChord(string chordName)
         {
-            var foundChords =  _dbContext.Chords.Where(x => x.ChordName.Contains(chordName)).ToList();
-            List< ChordDto>? foundChordsDTOs = null;
+            var foundChords = _dbContext.Chords.Where(x => x.ChordName.Contains(chordName)).ToList();
+            List<ChordDto>? foundChordsDTOs = null;
             if (foundChords != null)
             {
                 foundChordsDTOs = _mapper.Map<List<ChordDto>>(foundChords);
             }
 
-            
+
 
             return foundChordsDTOs;
         }

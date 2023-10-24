@@ -21,4 +21,8 @@
     <PackageReference Include="Nobisoft.Core.HttpContextAccessor" Version="1.0.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Admin\" />
+  </ItemGroup>
+
 </Project>

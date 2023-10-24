@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GuitarChords;
 using GuitarChords.Models;
-using GuitarChords.Interfaces;
 using GuitarChords.Dtos;
 using GuitarChords.Dtos.Requests;
 using Microsoft.AspNetCore.Authorization;
+using GuitarChords.Repositories.Interfaces;
 
 namespace GuitarChords.Controllers
 {

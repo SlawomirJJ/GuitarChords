@@ -1,9 +1,11 @@
-﻿using GuitarChords.Dtos.Requests;
-using GuitarChords.Interfaces;
+﻿using GuitarChords.Dtos;
+using GuitarChords.Dtos.Requests;
+using GuitarChords.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Data.Odbc;
 
 namespace GuitarChords.Controllers
 {
@@ -17,73 +19,68 @@ namespace GuitarChords.Controllers
             _authService = authService;
         }
 
-        public IActionResult ShowCreateUser()
+        public IActionResult RegistrationForm()
         {
-            return View("ShowCreateUser");
+            return View("RegistrationForm");
         }
 
-        /// <summary>
-        ///     Rejestracja użytkownika
-        /// </summary>
-        public async Task<ActionResult> UserRegister(CreateUserRequest request)
+        public async Task<IActionResult> Registration(RegistrationDto model)
         {
-            await _authService.RegisterUser(request);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            model.Role = "user";
+            var result = await _authService.Registration(model);
+             TempData["msg"] = result.Message;
+            return RedirectToAction(nameof(Registration));
+        }
 
+        public IActionResult Login()
+        {
+            return View("LoginForm");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("LoginForm",request);
+            }
+
+            var result = await _authService.Login(request);
+            if (result.StatusCode == 1)
+            {
+                return RedirectToAction("Display", "Dashboard");
+            }
+            else
+            {
+                TempData["msg"] = result.Message;
+                return RedirectToAction(nameof(Login));
+            }
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Logout()
+        {
+            await _authService.Logout();
             return View("Index");
         }
 
-        ///// <summary>
-        /////     Logowanie użytkownika - zwracanie tokenów
-        ///// </summary>
-        //[HttpPost("loginMobile")]
-        //[ProducesResponseType(typeof(LoginResultDto), StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<ActionResult> UserLogin(LoginMobileRequest request)
+        
+        //public async Task<IActionResult> Reg()
         //{
-        //    var result = await _authService.LoginUser(request);
-
+        //    var model = new RegistrationDto
+        //    {
+        //        UserName = "admin",
+        //        Email = "max@gmail.com",
+        //        Password = "Admin@12345$"
+        //    };
+        //    model.Role = "admin";
+        //    var result = await _authService.Registration(model);
         //    return Ok(result);
         //}
 
-        ///// <summary>
-        /////     Odnawia access token na podstawie refresh token
-        ///// </summary>
-        //[HttpPost("useToken")]
-        //[ProducesResponseType(typeof(UseRefreshTokenResultDto), StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<ActionResult> RefreshAccessToken(UseRefreshTokenRequest request)
-        //{
-        //    if (_authService.IsTokenValid(request.AccessToken))
-        //    {
-        //        return Ok(new UseRefreshTokenResultDto
-        //        {
-        //            AccessToken = request.AccessToken
-        //        });
-        //    }
-
-        //    var token = await _authService.RefreshAccessToken(request);
-
-        //    return Ok(token);
-        //}
-
-        ///// <summary>
-        /////     Usuwa refresh token z bazy
-        ///// </summary>
-        //[HttpPost("revokeToken")]
-        //[Authorize(Roles = "User,Worker,Shelter,SuperAdmin,Admin")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<ActionResult> RevokeToken([FromBody] TokenRequest request)
-        //{
-        //    await _authService.RevokeToken(request);
-        //    return NoContent();
-        //}
-
-        
     }
 }
