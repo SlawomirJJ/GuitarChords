@@ -1,8 +1,13 @@
 using GuitarChords;
 using GuitarChords.Interfaces;
 using GuitarChords.Mappers;
+using GuitarChords.Models;
 using GuitarChords.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +19,11 @@ builder.Services.AddScoped<IChordService, ChordService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAutoMapper(typeof(ChordMappingProfile));
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(op => op.LoginPath = "/UserAuthentication/Login");
 
 var app = builder.Build();
 
@@ -31,7 +40,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

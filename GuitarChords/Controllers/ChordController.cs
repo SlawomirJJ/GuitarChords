@@ -10,9 +10,11 @@ using GuitarChords.Models;
 using GuitarChords.Interfaces;
 using GuitarChords.Dtos;
 using GuitarChords.Dtos.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GuitarChords.Controllers
 {
+    [Authorize]
     public class ChordController : Controller
     {
         private readonly IChordService _chordService;
