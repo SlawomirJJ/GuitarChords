@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using GuitarChords.Dtos;
+using GuitarChords.Dtos.Requests;
 using GuitarChords.Interfaces;
 using GuitarChords.Models;
-using GuitarChords.Requests;
 using GuitarChords.Results;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -38,9 +38,18 @@ namespace GuitarChords.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<List<FoundChordResult>> GetAllChords()
+        public async Task<List<ChordDto>> GetAllChords()
         {
-            throw new NotImplementedException();
+            var foundChords = await _dbContext.Chords.ToListAsync();
+            List<ChordDto>? foundChordsDTOs = null;
+            if (foundChords != null)
+            {
+                foundChordsDTOs = _mapper.Map<List<ChordDto>>(foundChords);
+            }
+
+
+
+            return foundChordsDTOs;
         }
 
         public async Task UpdateChord(Chord chord)

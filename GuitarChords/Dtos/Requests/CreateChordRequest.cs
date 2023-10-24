@@ -1,4 +1,4 @@
-﻿namespace GuitarChords.Requests
+﻿namespace GuitarChords.Dtos.Requests
 {
     public class CreateChordRequest
     {

@@ -9,7 +9,7 @@ using GuitarChords;
 using GuitarChords.Models;
 using GuitarChords.Interfaces;
 using GuitarChords.Dtos;
-using GuitarChords.Requests;
+using GuitarChords.Dtos.Requests;
 
 namespace GuitarChords.Controllers
 {
@@ -27,6 +27,12 @@ namespace GuitarChords.Controllers
         public async Task<IActionResult> Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> ChordList()
+        {
+            List<ChordDto> chordList = await _chordService.GetAllChords();
+            return View("ChordListView", chordList);
         }
 
         public async Task<IActionResult> ShowCreateChord()

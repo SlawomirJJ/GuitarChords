@@ -1,12 +1,5 @@
 ﻿@model IEnumerable<GuitarChords.Dtos.ChordDto>
 
-<p>
-    
-</p>
-                
-
-
-
 <style>
     .cell 
     { 
@@ -48,9 +41,11 @@
     }
 </style>
 
+<div class="container d-flex flex-wrap">
 @foreach (var item in Model) {
-<a asp-action="ShowUpdateChord" asp-route-id="@item.Id">Edit</a>  
-<a asp-action="DeleteChord" asp-route-id="@item.Id">Delete</a>
+    <div class="card" style="width: 18rem; margin:10px">
+<div><p1>@item.ChordName</p1></div>
+
 <table>
     <thead>
         <tr>
@@ -192,5 +187,13 @@
 
     </tbody>
 </table>
+<div>
+    <a asp-action="ShowUpdateChord" asp-route-id="@item.Id">Edit</a>
+    <a asp-action="DeleteChord" asp-route-id="@item.Id">Delete</a>
+</div>
 
+<br/>
+<br/>
+</div>
 }
+</div>

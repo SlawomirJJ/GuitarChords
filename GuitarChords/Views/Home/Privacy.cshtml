@@ -4,3 +4,13 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<form asp-controller="Chord" asp-action="SearchChordResults" class="d-flex align-items-center">
+
+    <div class="form-group">
+        <label class="control-label">Search chord</label>
+        <input name="chordName" class="form-control" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+
+</form>
