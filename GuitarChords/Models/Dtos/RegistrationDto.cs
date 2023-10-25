@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GuitarChords.Dtos
+namespace GuitarChords.Models.Dtos
 {
     public class RegistrationDto
     {
@@ -10,7 +10,7 @@ namespace GuitarChords.Dtos
         [Required]
         public string UserName { get; set; }
         [Required]
-        [RegularExpression("(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"", ErrorMessage = "Minimum length 8 and must contain at least one number and includes both lower and uppercase letters and special characters")]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", ErrorMessage = "Minimum length 8 and must contain at least one number and includes both lower and uppercase letters and special characters")]
         public string Password { get; set; } = null!;
         [Required]
         [Compare("Password")]

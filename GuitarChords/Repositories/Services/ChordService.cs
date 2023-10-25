@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using Azure.Core;
-using GuitarChords.Dtos;
-using GuitarChords.Dtos.Requests;
-using GuitarChords.Models;
+using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Dtos.Requests;
+using GuitarChords.Models.Entities;
+using GuitarChords.Models.Results;
 using GuitarChords.Repositories.Interfaces;
-using GuitarChords.Results;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using NuGet.Protocol.Plugins;
+using System.Xml.Schema;
 
 namespace GuitarChords.Repositories.Services
 {
@@ -38,18 +41,30 @@ namespace GuitarChords.Repositories.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ChordDto>> GetAllChords()
+        public async Task<ChordListResponse> GetAllChords(ChordListRequest request)
         {
-            var foundChords = await _dbContext.Chords.ToListAsync();
+            int totalItemsCount = await _dbContext.Chords.CountAsync();
+            int numberOfPages = (int)Math.Ceiling((float)totalItemsCount/(float)request.PageSize);
+
+            var foundChords = await _dbContext.Chords
+                .Skip(request.PageSize*(request.PageNumber-1))
+                .Take(request.PageSize).OrderBy(x => x.ChordName)
+                .ToListAsync();
+
             List<ChordDto>? foundChordsDTOs = null;
             if (foundChords != null)
             {
                 foundChordsDTOs = _mapper.Map<List<ChordDto>>(foundChords);
             }
 
+            var chordListResponse = new ChordListResponse()
+            {
+                FoundChordsDtos = foundChordsDTOs,
+                TotalPages = numberOfPages,
+                CurrentPage = request.PageNumber
+            };
 
-
-            return foundChordsDTOs;
+            return chordListResponse;
         }
 
         public async Task UpdateChord(Chord chord)
@@ -84,18 +99,54 @@ namespace GuitarChords.Repositories.Services
 
         }
 
-        public async Task<List<ChordDto>>? SearchChord(string chordName)
+        public async Task<ChordListResponse> SearchChord(ChordListRequest request)
         {
-            var foundChords = _dbContext.Chords.Where(x => x.ChordName.Contains(chordName)).ToList();
+            int? totalItemsCount = await _dbContext.Chords
+                .Where(x => x.ChordName.ToUpper() == request.SearchName.ToUpper())
+                .CountAsync();
+
+            List<Chord> foundChords = null;
+            int numberOfPages;
+            if (totalItemsCount != 0)
+            {               
+                numberOfPages = (int)Math.Ceiling((float)totalItemsCount / (float)request.PageSize);
+
+                foundChords = await _dbContext.Chords
+                .Where(x => x.ChordName.ToUpper() == request.SearchName.ToUpper())
+                .Skip(request.PageSize * (request.PageNumber - 1))
+                .Take(request.PageSize).OrderBy(x => x.ChordName)
+                .ToListAsync();
+            }
+            else
+            {
+                totalItemsCount = await _dbContext.Chords.Where(x => x.ChordName.Contains(request.SearchName)).CountAsync();
+                numberOfPages = (int)Math.Ceiling((float)totalItemsCount / (float)request.PageSize);
+
+                foundChords = await _dbContext.Chords
+                .Where(x => x.ChordName.Contains(request.SearchName))
+                .Skip(request.PageSize * (request.PageNumber - 1))
+                .Take(request.PageSize).OrderBy(x => x.ChordName)
+                .ToListAsync();
+            }
+
+
+
+            
+
             List<ChordDto>? foundChordsDTOs = null;
             if (foundChords != null)
             {
                 foundChordsDTOs = _mapper.Map<List<ChordDto>>(foundChords);
             }
 
+            var chordListResponse = new ChordListResponse()
+            {
+                FoundChordsDtos = foundChordsDTOs,
+                TotalPages = numberOfPages,
+                CurrentPage = request.PageNumber
+            };
 
-
-            return foundChordsDTOs;
+            return chordListResponse;
         }
 
     }

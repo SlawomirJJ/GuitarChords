@@ -1,9 +1,8 @@
-﻿using GuitarChords.Dtos;
-using GuitarChords.Dtos.Requests;
-using GuitarChords.Enums;
-using GuitarChords.Models;
+﻿using GuitarChords.Enums;
+using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Dtos.Requests;
+using GuitarChords.Models.Entities;
 using GuitarChords.Repositories.Interfaces;
-using GuitarChords.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
@@ -134,39 +133,5 @@ namespace GuitarChords.Repositories.Services
         }
 
 
-
-
-
-
-
-
-        private Task SavingDataInCookies(string data)
-        {
-            var claims = new List<Claim>()
-            {
-                new(ClaimTypes.Role, data)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value!));
-
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(5),
-                signingCredentials: credentials
-            );
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            var options = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(1),
-            };
-
-            _contextAccessor.HttpContext!.Response.Cookies.Append("token", jwt, options);
-            return Task.CompletedTask;
-        }
     }
 }

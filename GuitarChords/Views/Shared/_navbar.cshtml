@@ -12,7 +12,7 @@
 
                         <div class="form-group">
                             <label>Search chord</label>
-                            <input name="chordName" />
+                            <input name="searchName" />
                             <input type="submit" value="Search" />
                         </div>
 
@@ -26,11 +26,29 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Chord" asp-action="ShowCreateChord">Add a new chord</a>
                     </li>
-                }             
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Auth" asp-action="ShowCreateUser">Register</a>
-                </li>
+                }
             </ul>
+
+            <ul class="navbar-nav flex-grow-1 ml-auto" style="background-color:aqua;">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item ml-auto">
+                        <a class="nav-link text-dark" asp-controller="Auth" asp-action="RegistrationForm">Register</a>
+                    </li>
+                    <li class="nav-item ml-auto">
+                        <a class="nav-link text-dark" asp-controller="Auth" asp-action="LoginForm">Log in</a>
+                    </li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Auth" asp-action="Logout">Log out</a>
+                    </li>
+                }
+            </ul>
+                
+                
+            
         </div>
     </div>
 </nav>

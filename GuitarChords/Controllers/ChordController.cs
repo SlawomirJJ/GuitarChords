@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GuitarChords;
-using GuitarChords.Models;
-using GuitarChords.Dtos;
-using GuitarChords.Dtos.Requests;
 using Microsoft.AspNetCore.Authorization;
 using GuitarChords.Repositories.Interfaces;
+using GuitarChords.Models.Entities;
+using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Dtos.Requests;
+using GuitarChords.Models.Results;
 
 namespace GuitarChords.Controllers
 {
-    [Authorize]
+
     public class ChordController : Controller
     {
         private readonly IChordService _chordService;
@@ -31,41 +32,53 @@ namespace GuitarChords.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ChordList()
+        public async Task<IActionResult> ChordList(ChordListRequest request)
         {
-            List<ChordDto> chordList = await _chordService.GetAllChords();
+            ChordListResponse chordList = await _chordService.GetAllChords(request);
             return View("ChordListView", chordList);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ShowCreateChord()
         {
             return View("CreateChord");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ProcessCreateChord(CreateChordRequest request)
         {
             await _chordService.CreateChord(request);
             return View("Index");
         }
 
-        public async Task<IActionResult> SearchChordResults(string chordName)
+        [Authorize(Roles = "user")]
+        public async Task<IActionResult> SearchChordResults(string searchName)
         {
-            List<ChordDto> chordList = await _chordService.SearchChord(chordName);
+            ChordListRequest request = new ChordListRequest()
+            {
+                PageNumber = 1,
+                PageSize = 10,
+                SearchName = searchName,
+            };
+            ChordListResponse chordList = await _chordService.SearchChord(request);
 
             return View("ChordListView",chordList);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ShowUpdateChord(Guid id)
         {
             return View("ShowEditChord");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ProcessEditChord(Chord chord)
         {
             await _chordService.UpdateChord(chord);
             return View("Index");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteChord(Guid id)
         {
             await _chordService.DeleteChord(id);

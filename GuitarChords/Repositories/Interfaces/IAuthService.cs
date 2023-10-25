@@ -1,7 +1,6 @@
-﻿using GuitarChords.Dtos;
-using GuitarChords.Dtos.Requests;
-using GuitarChords.Models;
-using GuitarChords.Results;
+﻿using GuitarChords.Models;
+using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Dtos.Requests;
 using NuGet.Protocol.Plugins;
 
 namespace GuitarChords.Repositories.Interfaces

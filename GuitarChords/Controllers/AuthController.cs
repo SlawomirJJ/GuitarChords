@@ -1,5 +1,5 @@
-﻿using GuitarChords.Dtos;
-using GuitarChords.Dtos.Requests;
+﻿using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Dtos.Requests;
 using GuitarChords.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,24 +24,25 @@ namespace GuitarChords.Controllers
             return View("RegistrationForm");
         }
 
+        [HttpPost]
         public async Task<IActionResult> Registration(RegistrationDto model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("RegistrationForm",model);
             }
             model.Role = "user";
             var result = await _authService.Registration(model);
              TempData["msg"] = result.Message;
-            return RedirectToAction(nameof(Registration));
+            return RedirectToAction(nameof(RegistrationForm));
         }
 
-        public IActionResult Login()
+        public IActionResult LoginForm()
         {
             return View("LoginForm");
         }
 
-        [HttpPost]
+       [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
@@ -52,12 +53,12 @@ namespace GuitarChords.Controllers
             var result = await _authService.Login(request);
             if (result.StatusCode == 1)
             {
-                return RedirectToAction("Display", "Dashboard");
+                return RedirectToAction("Index", "Chord");
             }
             else
             {
                 TempData["msg"] = result.Message;
-                return RedirectToAction(nameof(Login));
+                return RedirectToAction(nameof(LoginForm));
             }
         }
 
@@ -65,7 +66,7 @@ namespace GuitarChords.Controllers
         public async Task<ActionResult> Logout()
         {
             await _authService.Logout();
-            return View("Index");
+            return RedirectToAction("Index", "Chord");
         }
 
         

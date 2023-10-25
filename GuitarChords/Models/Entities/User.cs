@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace GuitarChords.Models
+namespace GuitarChords.Models.Entities
 {
-    public class User:IdentityUser
+    public class User : IdentityUser
     {
     }
 }

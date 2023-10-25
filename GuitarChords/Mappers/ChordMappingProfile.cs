@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using GuitarChords.Dtos;
-using GuitarChords.Models;
+using GuitarChords.Models.Dtos;
+using GuitarChords.Models.Entities;
 
 namespace GuitarChords.Mappers
 {

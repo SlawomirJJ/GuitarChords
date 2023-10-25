@@ -1,4 +1,4 @@
-﻿namespace GuitarChords.Dtos
+﻿namespace GuitarChords.Models.Dtos
 {
     public class ChordDto
     {

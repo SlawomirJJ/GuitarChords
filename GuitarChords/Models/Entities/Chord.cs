@@ -1,4 +1,4 @@
-﻿namespace GuitarChords.Models
+﻿namespace GuitarChords.Models.Entities
 {
     public class Chord
     {

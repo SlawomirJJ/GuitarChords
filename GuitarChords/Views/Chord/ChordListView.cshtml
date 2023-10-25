@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GuitarChords.Dtos.ChordDto>
+﻿@using GuitarChords.Models.Results;
+@model ChordListResponse
 
 <style>
     .cell 
@@ -42,7 +43,7 @@
 </style>
 
 <div class="container d-flex flex-wrap">
-@foreach (var item in Model) {
+@foreach (var item in Model.FoundChordsDtos) {
     <div class="card" style="width: 18rem; margin:10px">
 <div><p1>@item.ChordName</p1></div>
 
@@ -196,4 +197,12 @@
 <br/>
 </div>
 }
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a asp-page="/pagination" asp-route-currentpage="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
 </div>

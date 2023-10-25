@@ -1,4 +1,4 @@
-﻿namespace GuitarChords.Results
+﻿namespace GuitarChords.Models.Results
 {
     public class FoundChordResult
     {

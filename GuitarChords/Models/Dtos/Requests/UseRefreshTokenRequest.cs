@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GuitarChords.Dtos.Requests
+namespace GuitarChords.Models.Dtos.Requests
 {
     public class UseRefreshTokenRequest
     {
