@@ -22,11 +22,12 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
+builder.Services.AddScoped<Seeder>();
 
 builder.Services.ConfigureApplicationCookie(op => op.LoginPath = "/Auth/LoginForm");
 
 var app = builder.Build();
-
+await SeedDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -35,6 +36,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -48,3 +51,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+async Task SeedDatabaseAsync()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+        var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
+        await seeder.Seed();
+    }
+}

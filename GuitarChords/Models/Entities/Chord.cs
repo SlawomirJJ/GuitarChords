@@ -4,7 +4,6 @@
     {
         public Guid Id { get; set; }
         public string ChordName { get; set; } = string.Empty;
-        public int? Bar { get; set; }
         public int? FirstString { get; set; }
         public int? SecondString { get; set; }
         public int? ThirdString { get; set; }
