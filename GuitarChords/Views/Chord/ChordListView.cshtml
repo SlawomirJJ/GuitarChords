@@ -38,8 +38,44 @@
     {
         color: red;
         margin: 0 auto;
-        font-size:30px;
+        font-size:15px;
+        top: -10px;
+        text-align: center;
     }
+    .chordDiagram {
+        height: 50px;
+        overflow: visible;
+    }
+    .tr
+    {
+        height: 15px!important;
+        background-color:sandybrown;
+    }
+    .close {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close:after, .close:before {
+    content: '';
+    height: 2px;
+    width: 20px;
+    background: red;
+    display: block;
+    position: absolute;
+}
+
+.close:after {
+    transform: rotate(45deg);
+}
+
+.close:before {
+    transform: rotate(-45deg);
+}
 </style>
 
 <div class="container d-flex flex-wrap">
@@ -47,7 +83,7 @@
     <div class="card" style="width: 18rem; margin:10px">
 <div><p1>@item.ChordName</p1></div>
 
-<table>
+<table class="chordDiagram">
     <thead>
         <tr>
                 <th class="no-border"></th>
@@ -58,7 +94,7 @@
         </tr>
     </thead>
     <tbody>
-            <tr>
+            <tr class="tr"><!-- FirstString -->
                 <td class="black-header" style="position: relative; text-align: center;">
                     @if (item.FirstString == 0)
                     {
@@ -66,7 +102,7 @@
                     }
                     else if (item.FirstString == null)
                     {
-                        <div class="X"> X </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -79,7 +115,7 @@
                     </td>
                 }
             </tr>
-            <tr>
+            <tr class="tr"><!-- SecondString -->
                 <td class="black-header" style="position: relative; text-align: center;">
                     @if (item.SecondString == 0)
                     {
@@ -87,7 +123,7 @@
                     }
                     else if (item.SecondString == null)
                     {
-                        <div class="X"> X </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -100,7 +136,7 @@
                     </td>
                 }
             </tr>
-            <tr>
+            <tr class="tr"><!-- ThirdString -->
                 <td class="black-header" style="position: relative; text-align: center;">
                     @if (item.ThirdString == 0)
                     {
@@ -108,7 +144,7 @@
                     }
                     else if (item.ThirdString == null)
                     {
-                        <div class="X"> X </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -121,7 +157,7 @@
                     </td>
                 }
             </tr>
-            <tr>
+            <tr class="tr"><!-- FourthString -->
                 <td class="black-header" style="position: relative; text-align: center;">
                     @if (item.FourthString == 0)
                     {
@@ -129,7 +165,7 @@
                     }
                     else if (item.FourthString == null)
                     {
-                        <div class="X"> X </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -142,7 +178,7 @@
                     </td>
                 }
             </tr>
-            <tr>
+            <tr class="tr"> <!-- FifthString -->
                 <td class="black-header" style="position: relative; text-align: center;">
                     @if (item.FifthString == 0)
                     {
@@ -150,7 +186,7 @@
                     }
                     else if (item.FifthString == null)
                     {
-                        <div class="X"> X </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -162,8 +198,8 @@
                         }
                     </td>
                 }
-            </tr>
-            <tr class="no-border">
+            </tr class="tr">
+            <tr class="no-border"><!-- SixthString -->
                 <td class="no-border" style="position: relative; text-align: center;">
                     @if (item.SixthString == 0)
                     {
@@ -171,7 +207,7 @@
                     }
                     else if (item.SixthString == null)
                     {
-                        <div class="X" style="position: absolute; left: 50%; top: -20%; text-align: center; transform: translate(-50%, -50%);"> x </div>
+                        <div class="close" style="width: 15px; height: 15px; position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%);"></div>
                     }
                 </td>
                 @for (int i = item.LowestFret; i <= item.HighestFret; i++)
@@ -197,16 +233,16 @@
     
 </div>
 
-<br/>
-<br/>
+<br/><br/>
 </div>
 }
+<br/><br/>
     <ul class="pagination">
         @for (var i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a asp-page="/pagination" asp-route-currentpage="@i" class="page-link">@i</a>
-            </li>
+            <a asp-action="ChordList" asp-controller="Chord" asp-route-PageNumber="@i" asp-route-SearchName="@Model.SearchName" class="page-link">@i</a>
+        </li>
         }
     </ul>
 </div>

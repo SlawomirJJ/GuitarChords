@@ -5,15 +5,15 @@
 *@
 
     <form asp-action="Login" method="post">
-    <div class="container">
+    <div class="col-md-6">
         <label asp-for="UserName">UserName</label>
-        <input type="text" asp-for="UserName" />
+        <input type="text" asp-for="UserName" class="form-control" />
         <div>
             <span asp-validation-for="UserName"></span>
         </div>
 
         <label asp-for="Password">Password</label>
-        <input type="password" asp-for="Password" />
+        <input type="password" asp-for="Password" class="form-control" />
         <div>
             <span asp-validation-for="Password"></span>
         </div>
@@ -25,7 +25,7 @@
             </div>
         }
 
-        <button type="submit">Login</button>
+        <button type="submit" class="btn btn-primary">Login</button>
         <a href="/Auth/Register">Not a user! click here to sign up</a>
     </div>
     </form>

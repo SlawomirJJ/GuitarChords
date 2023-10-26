@@ -1,5 +1,8 @@
 ﻿using Azure.Core;
+using GuitarChords.Models.Dtos;
 using GuitarChords.Models.Entities;
+using GuitarChords.Repositories.Interfaces;
+using GuitarChords.Repositories.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,11 +12,13 @@ namespace GuitarChords
     {
         private readonly DataContext _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly IAuthService _authService;
 
-        public Seeder(DataContext dbContext, UserManager<User> userManager)
+        public Seeder(DataContext dbContext, UserManager<User> userManager, IAuthService authService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _authService = authService;
         }
 
         public async Task Seed()
@@ -28,14 +33,14 @@ namespace GuitarChords
                 }
                 if (!_dbContext.Users.Any())
                 {
-                    User user = new User
+                    RegistrationDto adminModel = new RegistrationDto
                     {
-                        SecurityStamp = Guid.NewGuid().ToString(),
                         UserName = "admin",
                         Email = "admin@gmail.com",
-                        EmailConfirmed = true,
+                        Password = "Admin@12345$",
                     };
-                    await _userManager.CreateAsync(user, "Admin@12345$");
+                    adminModel.Role = Enums.Roles.admin.ToString();
+                    await _authService.Registration(adminModel);
                 }
             }
             

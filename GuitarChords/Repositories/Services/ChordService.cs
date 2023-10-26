@@ -47,8 +47,9 @@ namespace GuitarChords.Repositories.Services
             int numberOfPages = (int)Math.Ceiling((float)totalItemsCount/(float)request.PageSize);
 
             var foundChords = await _dbContext.Chords
+                .OrderBy(x => x.ChordName)
                 .Skip(request.PageSize*(request.PageNumber-1))
-                .Take(request.PageSize).OrderBy(x => x.ChordName)
+                .Take(request.PageSize)
                 .ToListAsync();
 
             List<ChordDto>? foundChordsDTOs = null;
@@ -113,8 +114,9 @@ namespace GuitarChords.Repositories.Services
 
                 foundChords = await _dbContext.Chords
                 .Where(x => x.ChordName.ToUpper() == request.SearchName.ToUpper())
+                .OrderBy(x => x.ChordName)
                 .Skip(request.PageSize * (request.PageNumber - 1))
-                .Take(request.PageSize).OrderBy(x => x.ChordName)
+                .Take(request.PageSize)
                 .ToListAsync();
             }
             else
@@ -127,11 +129,7 @@ namespace GuitarChords.Repositories.Services
                 .Skip(request.PageSize * (request.PageNumber - 1))
                 .Take(request.PageSize).OrderBy(x => x.ChordName)
                 .ToListAsync();
-            }
-
-
-
-            
+            }           
 
             List<ChordDto>? foundChordsDTOs = null;
             if (foundChords != null)

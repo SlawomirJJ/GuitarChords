@@ -12,6 +12,7 @@ using GuitarChords.Models.Entities;
 using GuitarChords.Models.Dtos;
 using GuitarChords.Models.Dtos.Requests;
 using GuitarChords.Models.Results;
+using System.Drawing.Printing;
 
 namespace GuitarChords.Controllers
 {
@@ -32,8 +33,14 @@ namespace GuitarChords.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ChordList(ChordListRequest request)
+        public async Task<IActionResult> ChordList(int pageNumber=1,string? searchName = null)
         {
+            ChordListRequest request = new ChordListRequest()
+            {
+                PageNumber = pageNumber,
+                PageSize = 10,
+                SearchName = searchName
+            };
             ChordListResponse chordList = await _chordService.GetAllChords(request);
             return View("ChordListView", chordList);
         }

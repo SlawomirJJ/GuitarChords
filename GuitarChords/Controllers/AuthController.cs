@@ -69,19 +69,5 @@ namespace GuitarChords.Controllers
             return RedirectToAction("Index", "Chord");
         }
 
-        
-        //public async Task<IActionResult> Reg()
-        //{
-        //    var model = new RegistrationDto
-        //    {
-        //        UserName = "admin",
-        //        Email = "max@gmail.com",
-        //        Password = "Admin@12345$"
-        //    };
-        //    model.Role = "admin";
-        //    var result = await _authService.Registration(model);
-        //    return Ok(result);
-        //}
-
     }
 }

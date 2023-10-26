@@ -7,5 +7,6 @@ namespace GuitarChords.Models.Results
         public List<ChordDto> FoundChordsDtos { get; set; }
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
+        public string? SearchName { get; set; }
     }
 }
