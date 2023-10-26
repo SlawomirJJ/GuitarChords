@@ -13,6 +13,7 @@ using GuitarChords.Models.Dtos;
 using GuitarChords.Models.Dtos.Requests;
 using GuitarChords.Models.Results;
 using System.Drawing.Printing;
+using Azure.Core;
 
 namespace GuitarChords.Controllers
 {
@@ -33,13 +34,12 @@ namespace GuitarChords.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ChordList(int pageNumber=1,string? searchName = null)
+        public async Task<IActionResult> ChordList(int pageNumber = 1)
         {
             ChordListRequest request = new ChordListRequest()
             {
                 PageNumber = pageNumber,
                 PageSize = 10,
-                SearchName = searchName
             };
             ChordListResponse chordList = await _chordService.GetAllChords(request);
             return View("ChordListView", chordList);
@@ -54,16 +54,20 @@ namespace GuitarChords.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> ProcessCreateChord(CreateChordRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("CreateChord", request);
+            }
             await _chordService.CreateChord(request);
             return View("Index");
         }
 
-        [Authorize(Roles = "user")]
-        public async Task<IActionResult> SearchChordResults(string searchName)
+        [Authorize(Roles = "user,admin")]
+        public async Task<IActionResult> SearchChordResults(string searchName = "A", int pageNumber = 1)
         {
             ChordListRequest request = new ChordListRequest()
             {
-                PageNumber = 1,
+                PageNumber = pageNumber,
                 PageSize = 10,
                 SearchName = searchName,
             };
@@ -79,9 +83,13 @@ namespace GuitarChords.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> ProcessEditChord(Chord chord)
+        public async Task<IActionResult> ProcessEditChord(UpdateChordRequest request)
         {
-            await _chordService.UpdateChord(chord);
+            if (!ModelState.IsValid)
+            {
+                return View("ShowEditChord", request);
+            }
+            await _chordService.UpdateChord(request);
             return View("Index");
         }
 

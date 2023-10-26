@@ -9,7 +9,7 @@ namespace GuitarChords.Repositories.Interfaces
     {
         Task CreateChord(CreateChordRequest request);
         Task<ChordListResponse> GetAllChords(ChordListRequest request);
-        Task UpdateChord(Chord chord);
+        Task UpdateChord(UpdateChordRequest chord);
         Task DeleteChord(Guid id);
         Task<ChordListResponse> SearchChord(ChordListRequest request);
     }

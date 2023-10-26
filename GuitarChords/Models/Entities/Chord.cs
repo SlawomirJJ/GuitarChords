@@ -1,9 +1,11 @@
-﻿namespace GuitarChords.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GuitarChords.Models.Entities
 {
     public class Chord
     {
         public Guid Id { get; set; }
-        public string ChordName { get; set; } = string.Empty;
+        public string ChordName { get; set; }
         public int? FirstString { get; set; }
         public int? SecondString { get; set; }
         public int? ThirdString { get; set; }

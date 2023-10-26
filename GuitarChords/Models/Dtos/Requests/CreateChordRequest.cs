@@ -1,9 +1,12 @@
-﻿namespace GuitarChords.Models.Dtos.Requests
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace GuitarChords.Models.Dtos.Requests
 {
     public class CreateChordRequest
     {
-        public string ChordName { get; set; } = string.Empty;
-        public int? Bar { get; set; }
+        [Required]
+        public string ChordName { get; set; }
         public int? FirstString { get; set; }
         public int? SecondString { get; set; }
         public int? ThirdString { get; set; }

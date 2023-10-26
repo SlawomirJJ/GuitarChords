@@ -236,13 +236,29 @@
 <br/><br/>
 </div>
 }
-<br/><br/>
-    <ul class="pagination">
+
+</div>
+<br/>
+    
+    @if (Model.SearchName==null)
+    {
+        <ul class="pagination">
         @for (var i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-            <a asp-action="ChordList" asp-controller="Chord" asp-route-PageNumber="@i" asp-route-SearchName="@Model.SearchName" class="page-link">@i</a>
-        </li>
+            <a asp-action="ChordList" asp-controller="Chord" asp-route-PageNumber="@i" class="page-link">@i</a>
+            </li>
         }
-    </ul>
-</div>
+        </ul>
+    }
+    else
+    {
+        <ul class="pagination">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+            <a asp-action="SearchChordResults" asp-controller="Chord" asp-route-PageNumber="@i" asp-route-SearchName="@Model.SearchName" class="page-link">@i</a>
+            </li>
+        }
+        </ul>
+    }

@@ -68,7 +68,7 @@ namespace GuitarChords.Repositories.Services
             return chordListResponse;
         }
 
-        public async Task UpdateChord(Chord chord)
+        public async Task UpdateChord(UpdateChordRequest chord)
         {
             var foundChord = await _dbContext.Chords.FirstOrDefaultAsync(x => x.Id == chord.Id);
             if (foundChord is null)
@@ -141,7 +141,8 @@ namespace GuitarChords.Repositories.Services
             {
                 FoundChordsDtos = foundChordsDTOs,
                 TotalPages = numberOfPages,
-                CurrentPage = request.PageNumber
+                CurrentPage = request.PageNumber,
+                SearchName = request.SearchName
             };
 
             return chordListResponse;

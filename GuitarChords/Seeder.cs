@@ -37,7 +37,7 @@ namespace GuitarChords
                     {
                         UserName = "admin",
                         Email = "admin@gmail.com",
-                        Password = "Admin@12345$",
+                        Password = "1qa2ws!@QW",
                     };
                     adminModel.Role = Enums.Roles.admin.ToString();
                     await _authService.Registration(adminModel);
